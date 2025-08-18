@@ -6,9 +6,6 @@
   "scripts": {
     "start": "npx n8n"
   },
-  "engines": {
-    "node": ">=18.0.0"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/CleverCloud/n8n-example.git"
