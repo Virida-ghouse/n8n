@@ -4,8 +4,8 @@
   "description": "Example deployment for n8n on Clever Cloud",
   "main": "index.js",
   "scripts": {
-    "start": "node start.js",
-    "n8n": "npx n8n"
+    "start": "npx n8n",
+    "custom": "node start.js"
   },
   "repository": {
     "type": "git",
