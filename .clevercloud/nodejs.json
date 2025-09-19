@@ -1,0 +1,11 @@
+{
+  "build": {
+    "node_version": "22",
+    "npm_config": {
+      "production": false
+    }
+  },
+  "deploy": {
+    "module": "package.json"
+  }
+}
