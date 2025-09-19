@@ -1,11 +1,8 @@
 {
   "build": {
-    "node_version": "22",
-    "npm_config": {
-      "production": false
-    }
+    "node_version": "22"
   },
   "deploy": {
-    "module": "package.json"
+    "module": "start.js"
   }
 }

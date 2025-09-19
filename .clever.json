@@ -1,0 +1,28 @@
+{
+  "apps": [
+    {
+      "app_id": "app_eb0b5b92-1e91-41fe-814e-4ec1a30f8c8d",
+      "org_id": "orga_a7844a87-3356-462b-9e22-ce6c5437b0aa",
+      "deploy_url": "https://push-n3-par-clevercloud-customers.services.clever-cloud.com/app_eb0b5b92-1e91-41fe-814e-4ec1a30f8c8d.git",
+      "git_ssh_url": "git+ssh://git@push-n3-par-clevercloud-customers.services.clever-cloud.com/app_eb0b5b92-1e91-41fe-814e-4ec1a30f8c8d.git",
+      "name": "gitea",
+      "alias": "gitea"
+    },
+    {
+      "app_id": "app_4fdbaf24-6225-4bc5-a2bb-84319ea72bfb",
+      "org_id": "orga_a7844a87-3356-462b-9e22-ce6c5437b0aa",
+      "deploy_url": "https://push-n3-par-clevercloud-customers.services.clever-cloud.com/app_4fdbaf24-6225-4bc5-a2bb-84319ea72bfb.git",
+      "git_ssh_url": "git+ssh://git@push-n3-par-clevercloud-customers.services.clever-cloud.com/app_4fdbaf24-6225-4bc5-a2bb-84319ea72bfb.git",
+      "name": "virida_ihm",
+      "alias": "virida_app"
+    },
+    {
+      "app_id": "app_5c3113e8-1093-4eab-9fa1-cc5d355e9ee3",
+      "org_id": "orga_a7844a87-3356-462b-9e22-ce6c5437b0aa",
+      "deploy_url": "https://push-n3-par-clevercloud-customers.services.clever-cloud.com/app_5c3113e8-1093-4eab-9fa1-cc5d355e9ee3.git",
+      "git_ssh_url": "git+ssh://git@push-n3-par-clevercloud-customers.services.clever-cloud.com/app_5c3113e8-1093-4eab-9fa1-cc5d355e9ee3.git",
+      "name": "n8n",
+      "alias": "n8n"
+    }
+  ]
+}
