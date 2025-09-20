@@ -53,14 +53,21 @@ console.log(`🌐 Port: ${process.env.N8N_PORT}`);
 console.log(`🔗 Host: ${process.env.N8N_HOST}`);
 console.log(`🔒 Protocol: ${process.env.N8N_PROTOCOL}`);
 
+// Configuration mémoire optimisée
+process.env.NODE_OPTIONS = '--max-old-space-size=1536 --no-warnings';
+
 // Attendre un peu avant de démarrer
 setTimeout(() => {
-  console.log('⏰ Démarrage de n8n dans 2 secondes...');
+  console.log('⏰ Démarrage de n8n avec mémoire optimisée...');
+  console.log(`💾 NODE_OPTIONS: ${process.env.NODE_OPTIONS}`);
   
-  // Démarrer n8n
+  // Démarrer n8n avec configuration optimisée
   const n8nProcess = spawn('npx', ['n8n'], {
     stdio: 'inherit',
-    env: process.env
+    env: {
+      ...process.env,
+      NODE_OPTIONS: '--max-old-space-size=1536 --no-warnings'
+    }
   });
 
   n8nProcess.on('error', (error) => {

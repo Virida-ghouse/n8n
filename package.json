@@ -4,8 +4,13 @@
   "description": "Example deployment for n8n on Clever Cloud",
   "main": "index.js",
   "scripts": {
-    "start": "npx n8n",
-    "custom": "node start.js"
+    "start": "node start.js",
+    "postinstall": "echo 'n8n installation completed'",
+    "n8n-direct": "NODE_OPTIONS='--max-old-space-size=1536' npx n8n"
+  },
+  "engines": {
+    "node": ">=22.0.0",
+    "npm": ">=10.0.0"
   },
   "repository": {
     "type": "git",
