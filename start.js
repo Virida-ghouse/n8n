@@ -39,9 +39,9 @@ if (process.env.POSTGRESQL_ADDON_URI) {
   console.log('⚠️ Aucune base de données PostgreSQL configurée');
 }
 
-// Configuration n8n
-process.env.N8N_PORT = process.env.PORT || '8080';
-process.env.N8N_HOST = '0.0.0.0';
+// Configuration n8n - utiliser un port différent pour éviter les conflits
+process.env.N8N_PORT = '8081'; // Port interne pour n8n
+process.env.N8N_HOST = '127.0.0.1';
 process.env.N8N_PROTOCOL = 'https';
 process.env.N8N_EDITOR_BASE_URL = 'https://app-5c3113e8-1093-4eab-9fa1-cc5d355e9ee3.cleverapps.io/';
 process.env.WEBHOOK_URL = 'https://app-5c3113e8-1093-4eab-9fa1-cc5d355e9ee3.cleverapps.io/';
@@ -67,9 +67,57 @@ let n8nProcess = null;
 // Créer un serveur de fallback qui démarre immédiatement
 const fallbackServer = http.createServer((req, res) => {
   if (n8nReady) {
-    // Si n8n est prêt, rediriger vers n8n (ne devrait pas arriver avec ce setup)
-    res.writeHead(302, { 'Location': `http://localhost:${PORT}` });
-    res.end();
+    // Si n8n est prêt, faire un proxy vers n8n sur port 8081
+    const proxyReq = http.request({
+      hostname: '127.0.0.1',
+      port: 8081,
+      path: req.url,
+      method: req.method,
+      headers: req.headers
+    }, (proxyRes) => {
+      res.writeHead(proxyRes.statusCode, proxyRes.headers);
+      proxyRes.pipe(res);
+    });
+    
+    proxyReq.on('error', (err) => {
+      console.error('Proxy error:', err);
+      n8nReady = false; // Marquer n8n comme non prêt si erreur
+      // Afficher la page d'attente à nouveau
+      res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+      res.end(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>n8n - Reconnexion en cours</title>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <style>
+            body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background: #f5f5f5; }
+            .container { max-width: 600px; margin: 0 auto; background: white; padding: 40px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+            .spinner { border: 4px solid #f3f3f3; border-top: 4px solid #007acc; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 20px auto; }
+            @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+            .status { color: #666; margin: 20px 0; }
+          </style>
+          <script>
+            setTimeout(() => window.location.reload(), 5000);
+          </script>
+        </head>
+        <body>
+          <div class="container">
+            <h1>🔄 n8n - Reconnexion en cours</h1>
+            <div class="spinner"></div>
+            <div class="status">
+              <p>Reconnexion à n8n...</p>
+              <p>Cette page se rechargera automatiquement.</p>
+            </div>
+            <small>Powered by Virida IoT Platform</small>
+          </div>
+        </body>
+        </html>
+      `);
+    });
+    
+    req.pipe(proxyReq);
   } else {
     // Page d'attente pendant que n8n démarre
     res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
